@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mohamed Kechiche — Software Engineer & CS Student at TU Darmstadt</title>
+  <meta name="description" content="Mohamed Kechiche is a software engineer and computer science student at TU Darmstadt, building AI-powered products at GFT Technologies and beyond. See his projects and get in touch." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <span class="preloader__count" id="preloader-count">0</span>
+    <span class="preloader__label">Mohamed Kechiche — Portfolio</span>
+  </div>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"><span class="cursor__label" id="cursor-label"></span></div>
+
+  <!-- Header -->
+  <header class="header is-over-hero" id="header">
+    <a class="header__logo" href="#top" data-scroll-link>Mohamed&nbsp;Kechiche<sup>®</sup></a>
+    <nav class="header__nav">
+      <a href="#work" data-scroll-link>Work</a>
+      <a href="#about" data-scroll-link>About</a>
+      <a href="#experience" data-scroll-link>Experience</a>
+    </nav>
+    <a class="header__cta" href="#contact" data-scroll-link>Let's talk</a>
+    <!-- Shown only below 760px, where the nav pill and CTA hide. -->
+    <button class="header__menu" id="menu-button" type="button"
+            aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+      <span aria-hidden="true"></span><span aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <!-- Mobile navigation — a native <dialog>, same pattern as the experience modal -->
+  <dialog class="nav-menu" id="nav-menu" aria-label="Site navigation">
+    <button class="nav-menu__close" type="button" aria-label="Close menu">&times;</button>
+    <nav class="nav-menu__links">
+      <a href="#work" data-scroll-link>Work</a>
+      <a href="#about" data-scroll-link>About</a>
+      <a href="#experience" data-scroll-link>Experience</a>
+      <a href="#contact" data-scroll-link>Let's talk</a>
+    </nav>
+  </dialog>
+
+  <main class="page" id="top">
+
+    <!-- ============ HERO (full-bleed) ============ -->
+    <section class="hero">
+      <img class="hero__bg" src="/images/hero-frankfurt.jpeg" alt="Mohamed Kechiche at dusk on a rooftop, the lit Frankfurt skyline rising behind the rooftops below" data-parallax />
+      <div class="hero__scrim" aria-hidden="true"></div>
+      <div class="hero__text">
+        <h1 class="hero__name"><span class="mask"><span class="reveal">Mohamed Kechiche<sup>®</sup></span></span></h1>
+        <p class="hero__tagline"><span class="mask"><span class="reveal">Cool dude loves building software and AI-Powered products.</span></span></p>
+      </div>
+      <div class="hero__scroll">(Scroll)</div>
+    </section>
+
+    <!-- ============ WORK — intro ============ -->
+    <section class="work" id="work">
+      <div class="work__head">
+        <span class="section-label">Selected work — 2024–2026</span>
+        <h2 class="section-title">
+          <span class="mask"><span class="reveal">My Projects </span></span>
+        </h2>
+        <p class="work__intro">A collection of projects I have built, with partners or by myself.</p>
+        <p class="work__intro">Every project starts with a different problem to solve, which is probably why I like this work so much.</p>
+      </div>
+    </section>
+
+    <!-- ============ PROJECT WHEEL (pinned; folds card-by-card on scroll) ============ -->
+    <section class="pw" id="pw" aria-label="Featured projects">
+      <!-- One <li> per project: copy + card face travel together, so the static
+           fallback (mobile / reduced motion / no JS) is a plain readable list. -->
+      <ul class="pw__list" id="pw-list">
+
+        <li class="pw__item" data-i="0">
+          <div class="pw__copy">
+            <span class="pw__count"><em>01</em> / 04</span>
+            <h3 class="pw__title">LawBuddy</h3>
+            <p class="pw__tech">Python · React · TypeScript · Supabase · OpenAI · Tailwind CSS</p>
+            <p class="pw__desc">Law Buddy turns dense legislation into clear, personalized explanations. Individuals get a plain-language feed of laws that matter to them; businesses get a compliance view of what new regulations mean for their operations.</p>
+            <div class="pw__links">
+              <a href="https://law-buddy-impact-guide.lovable.app/" target="_blank" rel="noopener">Live demo ↗</a>
+              <a href="https://github.com/kechich/LawBuddy" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+          </div>
+          <div class="pw__frame">
+            <a class="pw__face pw__face--a" href="https://law-buddy-impact-guide.lovable.app/" target="_blank" rel="noopener" aria-label="Open the LawBuddy live demo" data-cursor="Open">
+              <span class="pw__mark">LB</span>
+              <em>Live demo</em>
+              <!-- preload="none": 11 MB that costs nothing until the card is reached.
+                   No controls — it sits inside a link, and nesting interactive
+                   controls in an anchor breaks both clicking and screen readers. -->
+              <video class="pw__video" src="/media/lawbuddy-demo.mp4"
+                     muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+            </a>
+          </div>
+        </li>
+
+        <li class="pw__item" data-i="1">
+          <div class="pw__copy">
+            <span class="pw__count"><em>02</em> / 04</span>
+            <h3 class="pw__title">Lucid Analytics</h3>
+            <span class="pw__badge"> “Best Idea” &amp; “Best Tech” — Futury Hackathon 2026</span>
+            <p class="pw__tech">React · TypeScript · Supabase · OpenAI · Tailwind</p>
+            <p class="pw__desc">Turns raw spreadsheets into plain-language margin analysis. An AI Co-Pilot separates signal from noise, and a What-If simulator quantifies the impact of operational changes on the spot.</p>
+            <div class="pw__links">
+              <a href="https://lucid-insights-analytics.lovable.app/" target="_blank" rel="noopener">Live demo ↗</a>
+              <a href="https://github.com/kechich/Lucid-analytics" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+          </div>
+          <div class="pw__frame">
+            <a class="pw__face pw__face--b" href="https://lucid-insights-analytics.lovable.app/" target="_blank" rel="noopener" aria-label="Open the Lucid Analytics live demo" data-cursor="Open">
+              <span class="pw__mark">LA</span>
+              <em>Live demo</em>
+              <video class="pw__video" src="/media/lucid-demo.mp4"
+                     muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+            </a>
+          </div>
+        </li>
+
+        <li class="pw__item" data-i="2">
+          <div class="pw__copy">
+            <span class="pw__count"><em>03</em> / 04</span>
+            <h3 class="pw__title">Ariva</h3>
+            <p class="pw__tech">Local-first AI · On-premises models</p>
+            <p class="pw__desc">Built for the Regierungspräsidium Freiburg: reads incoming cross-border legal-assistance PDFs and auto-fills legacy case forms; sensitive documents never leave the building.</p>
+            <div class="pw__links">
+              <a href="https://github.com/kechich/Ariva" target="_blank" rel="noopener">GitHub ↗</a>
+              <span class="pw__note">Runs on-premises — no public demo</span>
+            </div>
+          </div>
+          <div class="pw__frame">
+            <a class="pw__face pw__face--c" href="https://github.com/kechich/Ariva" target="_blank" rel="noopener" aria-label="Ariva on GitHub" data-cursor="View">
+              <img class="pw__shot" src="/images/ariva.jpeg" loading="lazy" width="1281" height="889"
+                   alt="The Ariva interface: a cross-border legal-assistance case form auto-filled from the scanned original document shown alongside it" />
+            </a>
+          </div>
+        </li>
+
+        <li class="pw__item" data-i="3">
+          <div class="pw__copy">
+            <span class="pw__count"><em>04</em> / 04</span>
+            <h3 class="pw__title">Cross-modal brain-MRI retrieval</h3>
+            <p class="pw__tech">Python · ML research</p>
+            <p class="pw__desc">Training-free cross-modal 3D brain-MRI retrieval (T1→T2, same patient) at 0.862 macro-MRR — modality-invariant MIND descriptors, GPU affine registration to a canonical template.</p>
+            <div class="pw__links">
+              <a href="https://github.com/kechich/cross-modal-brain-mri-retrieval" target="_blank" rel="noopener">GitHub ↗</a>
+              <span class="pw__note">Research code — no live demo</span>
+            </div>
+          </div>
+          <div class="pw__frame">
+            <a class="pw__face pw__face--d" href="https://github.com/kechich/cross-modal-brain-mri-retrieval" target="_blank" rel="noopener" aria-label="Cross-modal brain-MRI retrieval on GitHub" data-cursor="View">
+              <img class="pw__shot" src="/images/mri-retrieval.jpeg" loading="lazy" width="1052" height="659"
+                   alt="Research figure: a table of the three retrieval datasets and their macro-MRR scores, above paired T1 post-contrast query and T2 target brain scans" />
+            </a>
+          </div>
+        </li>
+
+      </ul>
+
+      <!-- Position indicator (live layout only) -->
+      <ol class="pw__dots" id="pw-dots" aria-hidden="true">
+        <li></li><li></li><li></li><li></li>
+      </ol>
+    </section>
+
+    <!-- ============ WORK — the rest ============ -->
+    <section class="also">
+      <a class="work__more" href="https://github.com/kechich" target="_blank" rel="noopener">
+        <span class="mask"><span class="reveal">These are the highlights, there's plenty more on my GitHub ↗</span></span>
+      </a>
+    </section>
+
+    <!-- ============ ABOUT / MISSION ============ -->
+    <section class="mission" id="about">
+      <!-- Greeting and toggle read as one unit, so they sit closer together than
+           the section's own rhythm allows. -->
+      <div class="mission__lead">
+        <p class="mission__greeting">Hey there! Thanks for stopping by. Here's the short version of who i am, or the whole story.</p>
+
+      <!-- `hidden` until initBioToggle removes it: with no JS the short bio still
+           renders on its own, so the section never depends on the control. -->
+      <div class="bio-toggle" id="bio-toggle" role="group" aria-label="Bio length" hidden>
+        <span class="bio-toggle__thumb" aria-hidden="true"></span>
+        <button class="bio-toggle__opt" type="button" data-variant="short"
+                aria-pressed="true" aria-controls="mission-text">
+          <span class="bio-toggle__pair">Short<span class="bio-toggle__arrow" aria-hidden="true">→</span></span>
+        </button>
+        <button class="bio-toggle__opt" type="button" data-variant="long"
+                aria-pressed="false" aria-controls="mission-text">
+          <span class="bio-toggle__pair">Long<span class="bio-toggle__arrow" aria-hidden="true">→</span></span>
+        </button>
+      </div>
+      </div>
+
+      <!-- The short version is the live copy — edit it right here. One <p> per
+           paragraph: the breaks are preserved through the swap. -->
+      <div class="mission__text" id="mission-text">
+        <p>Software engineer, computer science student, and teaching assistant. I spend my time building software, learning, teaching, and testing myself at hackathons and tech events.</p>
+      </div>
+
+      <!-- The long version, inert until swapped in — edit the long copy here. -->
+      <template id="mission-long">
+        <p>I grew up in Msaken, a small town in Tunisia.</p>
+        <p>As a kid, I built things with Lego. I would sit on the floor with the pieces spread around me, make one thing, take it apart, and make another. In high school, the pieces became numbers and equations. I found mathematics and physics, and I liked the work of staying with a problem until it made sense.</p>
+        <p>When school ended, I was eighteen and had to choose what came next. I already knew some code from school projects, so that summer I took an internship in web development. For three months, I wrote code, fixed what broke, and watched things come alive on a screen.</p>
+        <p>I liked it.</p>
+        <p>So I decided to study software engineering in Europe.</p>
+        <p>In 2024, I came to Germany with barely a thousand euros. I washed cars. I worked in restaurants and on construction sites. I learned German and went to university. At night, between shifts, and whenever I had the time, I kept writing code and learning how software was built.</p>
+        <p>The work went on.</p>
+        <p>Today, I am a student, a teacher, and a software engineer. I study computer science, teach algorithms and data structures, and build software for insurance clients.</p>
+        <p>I spend weekends at hackathons, building against the clock. I go to tech events, meet people who know more than I do, and ask questions.</p>
+        <p>Then I go home and build some more.</p>
+      </template>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section class="experience" id="experience">
+      <div class="experience__head">
+        <span class="section-label">Experience &amp; Education</span>
+        <h2 class="section-title">
+          <span class="mask"><span class="reveal">Where I've</span></span>
+          <span class="mask"><span class="reveal">been building</span></span>
+        </h2>
+      </div>
+
+      <!-- Two groups, one list treatment: the labels divide without breaking the
+           run of rows, and the numbering stays continuous across both. -->
+      <div class="rows-group">
+      <h3 class="rows-group__label">Work</h3>
+      <ul class="rows">
+        <li class="row">
+          <h4 class="row__heading">
+            <button class="row__trigger" type="button" aria-haspopup="dialog">
+              <span class="row__index">01</span>
+              <span class="row__title">Software Engineer <em>(Working Student)</em></span>
+              <span class="row__org">GFT Technologies, Frankfurt</span>
+              <span class="row__date">Apr 2026 —</span>
+              <span class="row__arrow" aria-hidden="true">→</span>
+            </button>
+          </h4>
+          <!-- Inert until cloned into the dialog — edit the copy for each role here. -->
+          <template class="row__detail">
+            <p>Working student in GFT's Tech Office, on a delivery team building for a global insurance client.</p>
+            <ul>
+              <li>Ship features in TypeScript and Spring Boot, hardened by CI/CD pipelines, automated tests and structured code review.</li>
+              <li>Find manual bottlenecks in the team's workflows and automate them with AI, cutting repetitive work and speeding up delivery.</li>
+              <li>Built an automated Confluence-to-Git sync service: a REST delta pipeline mirrors the full specification tree into a versioned repo as Markdown every 15 minutes, then an AI agent drafts specs per Jira ticket onto a review branch.</li>
+            </ul>
+          </template>
+        </li>
+        <li class="row">
+          <h4 class="row__heading">
+            <button class="row__trigger" type="button" aria-haspopup="dialog">
+              <span class="row__index">02</span>
+              <span class="row__title">Teaching Assistant, Algorithms &amp; Data Structures</span>
+              <span class="row__org">TU Darmstadt</span>
+              <span class="row__date">Apr 2026 — Sep 2026</span>
+              <span class="row__arrow" aria-hidden="true">→</span>
+            </button>
+          </h4>
+          <!-- Inert until cloned into the dialog — edit the copy for each role here. -->
+          <template class="row__detail">
+            <p>Weekly tutorials for the algorithms and data structures course at TU Darmstadt.</p>
+            <ul>
+              <li>Lead weekly sessions for 35+ students on core algorithms, data structures and complexity analysis.</li>
+              <li>Design and grade 20+ weekly assignments with individual feedback — average scores up 30% over the term.</li>
+              <li>Run office hours debugging student Java and Python code, resolving 15+ issues a week.</li>
+            </ul>
+          </template>
+        </li>
+        <li class="row">
+          <h4 class="row__heading">
+            <button class="row__trigger" type="button" aria-haspopup="dialog">
+              <span class="row__index">03</span>
+              <span class="row__title">Web Developer Intern</span>
+              <span class="row__org">GOMYCODE, Sousse</span>
+              <span class="row__date">Jun 2023 — Aug 2023</span>
+              <span class="row__arrow" aria-hidden="true">→</span>
+            </button>
+          </h4>
+          <!-- Inert until cloned into the dialog — edit the copy for each role here. -->
+          <template class="row__detail">
+            <p>Three months on an e-learning platform in Sousse — the first professional development work.</p>
+            <ul>
+              <li>Built responsive React features for a platform serving 1,000+ users, and ran cross-browser QA passes.</li>
+              <li>Cut production page load times 25% through targeted code refactoring and lazy loading.</li>
+            </ul>
+          </template>
+        </li>
+      </ul>
+      </div>
+
+      <div class="rows-group">
+      <h3 class="rows-group__label">Education</h3>
+      <ul class="rows">
+        <li class="row">
+          <h4 class="row__heading">
+            <button class="row__trigger" type="button" aria-haspopup="dialog">
+              <span class="row__index">04</span>
+              <span class="row__title">B.Sc. Computer Science</span>
+              <span class="row__org">TU Darmstadt</span>
+              <span class="row__date">Oct 2024 — Sep 2027</span>
+              <span class="row__arrow" aria-hidden="true">→</span>
+            </button>
+          </h4>
+          <!-- Inert until cloned into the dialog — edit the copy for each role here. -->
+          <template class="row__detail">
+            <p>Coursework: algorithms and data structures, object-oriented programming, operating systems, databases, concurrent programming, and software engineering.</p>
+          </template>
+        </li>
+        <li class="row">
+          <h4 class="row__heading">
+            <button class="row__trigger" type="button" aria-haspopup="dialog">
+              <span class="row__index">05</span>
+              <span class="row__title">Baccalauréat in Mathematics</span>
+              <span class="row__org">Lycée Pilote Sousse</span>
+              <span class="row__date">Sep 2019 — Jun 2023</span>
+              <span class="row__arrow" aria-hidden="true">→</span>
+            </button>
+          </h4>
+          <!-- Inert until cloned into the dialog — edit the copy for each role here. -->
+          <template class="row__detail">
+            <p>Graduated with 17.3/20 on the mathematics track.</p>
+            <p>The mathematics and physics years, and where the problem-solving that led to computer science started.</p>
+          </template>
+        </li>
+      </ul>
+      </div>
+
+      <div class="skills">
+        <div class="skills__col"><h3>Languages</h3><p>Java · Python · C · C++ · TypeScript · JavaScript · SQL (PostgreSQL) · HTML/CSS · Bash</p></div>
+        <div class="skills__col"><h3>Frameworks</h3><p>Spring Boot · React · Node.js · FastAPI · Flask · Angular · Express · Tailwind CSS · Pydantic</p></div>
+        <div class="skills__col"><h3>Testing &amp; CI/CD</h3><p>JUnit · Vitest · Playwright · pytest · Git · GitHub Actions · Jenkins · Maven</p></div>
+        <div class="skills__col"><h3>Cloud &amp; tools</h3><p>Docker · Kubernetes · Google Cloud Platform · AWS · Linux · PostgreSQL · Qdrant · REST APIs</p></div>
+        <div class="skills__col"><h3>Data &amp; AI</h3><p>pandas · NumPy · Matplotlib · OpenCV · RAG pipelines · vector search · embeddings · LLM APIs</p></div>
+        <div class="skills__col"><h3>Spoken</h3><p>Arabic <em>(native)</em> · English, French, German <em>(fluent)</em></p></div>
+      </div>
+
+      <div class="cv">
+        <a class="cv-button" href="/cv/Mohamed_Kechiche_CV_EN.pdf" type="application/pdf"
+           hreflang="en" download>Download my CV <span>(English, PDF)</span></a>
+        <!-- lang="de" so a screen reader pronounces the German with German phonemes. -->
+        <a class="cv-button" href="/cv/Mohamed_Kechiche_CV_DE.pdf" type="application/pdf"
+           hreflang="de" download lang="de">Lebenslauf herunterladen <span>(Deutsch, PDF)</span></a>
+      </div>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section class="gallery" id="gallery">
+      <div class="gallery__pin">
+        <div class="gallery__head">
+          <h2 class="section-title"><span class="mask"><span class="reveal">Beyond the code</span></span></h2>
+          <p class="gallery__sub">Gym five years running · trails and mountains whenever possible · ~150,000 Spotify minutes a year · cinema, anime, classical American literature, and lately German philosophy.</p>
+        </div>
+        <div class="gallery__track" id="gallery-track">
+          <figure class="gallery__item">
+            <img src="/images/gallery-2.jpeg" loading="lazy" width="1600" height="1200"
+                 alt="Mohamed sitting back in a red armchair with his laptop, mid-conversation with two colleagues in a sunlit office" />
+            <figcaption>Talking shop</figcaption>
+          </figure>
+          <figure class="gallery__item gallery__item--tall">
+            <img src="/images/gallery-1.jpeg" loading="lazy" width="2048" height="1365"
+                 alt="Mohamed presenting to a full venue" />
+            <figcaption>Presenting to a full house</figcaption>
+          </figure>
+          <figure class="gallery__item">
+            <img src="/images/gallery-3.jpeg" loading="lazy" width="1600" height="1200"
+                 alt="Mohamed at his desk in front of a large monitor of code, low sun across an open-plan office" />
+            <figcaption>Golden hour, deep work</figcaption>
+          </figure>
+          <figure class="gallery__item gallery__item--tall">
+            <img src="/images/gallery-4.jpeg" loading="lazy" width="1639" height="1024"
+                 alt="Mohamed in a ski helmet and mirrored blue goggles at an alpine resort, snow-covered peaks behind him" />
+            <figcaption>Bluebird day on the glacier</figcaption>
+          </figure>
+          <figure class="gallery__item">
+            <img src="/images/gallery-5.jpeg" loading="lazy" width="2048" height="2048"
+                 alt="Sitting on a Mediterranean beach under a draped cloth, looking out over a turquoise bay with moored boats, a hillside town and rows of striped umbrellas" />
+            <figcaption>Chasing coastlines</figcaption>
+          </figure>
+          <figure class="gallery__item gallery__item--tall gallery__item--bottom">
+            <img src="/images/gallery-6.jpeg" loading="lazy" width="1524" height="2048"
+                 alt="Mohamed standing chest-deep in a clear alpine lake, flexing both arms, with a pine-covered mountainside and peak rising behind" />
+            <figcaption>Alpine lake, obligatory flex</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interests marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__inner">
+        <span>Gym — Running — Hiking — Mountains — Travel — Music — Cinema — Anime — Literature — Philosophy — </span>
+        <span>Gym — Running — Hiking — Mountains — Travel — Music — Cinema — Anime — Literature — Philosophy — </span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ============ CONTACT / FOOTER (curtain reveal) ============ -->
+  <footer class="footer" id="contact">
+    <div class="footer__inner">
+      <h2 class="footer__title">Let's talk</h2>
+      <p class="footer__invite">Whether it's an opportunity, a project, or just to talk tech — I'd love to hear from you.</p>
+
+      <div class="footer__grid">
+        <!-- Posts to Web3Forms. The action is a real endpoint, so the form still
+             submits if JavaScript fails; main.ts upgrades it to a fetch so the
+             visitor stays on the page. -->
+        <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <!-- ⚠ Paste the access key from web3forms.com here. Until you do, the
+               form hands the message to a mail client instead of pretending to
+               send it — a message is never silently dropped. -->
+          <input type="hidden" name="access_key" value="12f3e0aa-70cf-4438-b478-f2be7ba8cbe2" />
+          <input type="hidden" name="subject" value="New message from kechiche.dev" />
+          <!-- Honeypot: invisible to people, tempting to bots. Web3Forms discards
+               any submission that arrives with it filled in. -->
+          <input type="checkbox" name="botcheck" tabindex="-1" aria-hidden="true" style="display: none" />
+
+          <label>Name<input type="text" name="name" required autocomplete="name" /></label>
+          <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+          <label>Message<textarea name="message" rows="4" required></textarea></label>
+          <button type="submit">Send →</button>
+          <p class="contact-form__status" id="form-status" role="status" aria-live="polite" hidden></p>
+        </form>
+
+        <ul class="footer__channels">
+          <li><span>Email</span><a href="mailto:kechiche579@gmail.com">kechiche579@gmail.com</a></li>
+          <li><span>LinkedIn</span><a href="https://linkedin.com/in/kechiche" target="_blank" rel="noopener">linkedin.com/in/kechiche</a></li>
+          <li><span>GitHub</span><a href="https://github.com/kechich" target="_blank" rel="noopener">github.com/kechich</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__marquee" aria-hidden="true">
+        <div class="marquee__inner marquee__inner--slow">
+          <span>Mohamed Kechiche — Mohamed Kechiche — </span>
+          <span>Mohamed Kechiche — Mohamed Kechiche — </span>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 Mohamed Kechiche</span>
+        <span>Darmstadt, Germany</span>
+        <a href="#top" data-scroll-link>Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Experience detail card — populated from the clicked row by initExperience -->
+  <dialog class="modal" id="exp-modal" aria-labelledby="exp-modal-title">
+    <button class="modal__close" type="button" aria-label="Close">&times;</button>
+    <p class="modal__meta"><span class="modal__org"></span> · <span class="modal__date"></span></p>
+    <h2 class="modal__title" id="exp-modal-title"></h2>
+    <div class="modal__body"></div>
+  </dialog>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

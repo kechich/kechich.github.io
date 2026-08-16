@@ -1,0 +1,778 @@
+/* ============ Reset & tokens ============ */
+/* Design system: see design.md (Ventriloc style reference).
+   Substitutions and deliberate deviations are recorded at the bottom of that file. */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Palette */
+  --color-graphite: #202020;
+  --color-canvas-white: #ffffff;
+  --color-ash: #efefef;
+  --color-fog: #f5f5f5;
+  --color-ivory: #ebe6dd;
+  --color-steel: #4d4d4d;
+  --color-slate: #828282;
+  --color-mist: #e8e8e8;
+  --color-ember-orange: #ff682c;
+  --color-brass: #816729;
+
+  /* Semantic aliases — most rules below reference these */
+  --ink: var(--color-graphite);
+  --bg: var(--color-canvas-white);
+  --muted: var(--color-slate);      /* short labels only — 3.84:1 on white */
+  --muted-copy: var(--color-steel); /* recessive text that is still read — 8.45:1 */
+  --line: var(--color-mist);
+  --paper: var(--color-canvas-white);
+
+  /* PolySans is a commercial licence. Space Grotesk is one of the reference's
+     own listed substitutes, and gives a real second voice against Inter body —
+     "PolySans is the voice, Inter is the grammar" needs two distinct faces. */
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* -0.02em on every display element — it is baked into the face's identity. */
+  --track-display: -0.02em;
+
+  /* Masked headings clip descenders when line-height falls below the heading
+     font's ink height (ascender + descender). Measured: Inter 1.21, Space
+     Grotesk 1.27. This floor is a property of the FONT — re-measure it whenever
+     the heading face changes, then restore the tight rhythm with negative
+     margins rather than by lowering line-height. */
+  --display-leading: 1.3;
+
+  --gutter: clamp(1rem, 3vw, 3rem);
+  --radius-button: 0;          /* sharp — deliberate contrast against soft cards */
+  --radius-feature: 6px 0 0;   /* the asymmetric signature */
+  --radius-nav: 200px;
+  --radius-tag: 20px;
+  --radius-card: 8px;
+  --section-gap: 80px;
+  --ease: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+html { scrollbar-width: thin; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.61;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+a { color: inherit; text-decoration: none; }
+sup { font-size: 0.3em; vertical-align: super; }
+
+/* Line-reveal masks */
+.mask { display: block; overflow: hidden; }
+.mask .reveal { display: inline-block; will-change: transform; }
+
+.section-label {
+  display: block;
+  font-family: var(--font);
+  font-size: 0.9375rem;
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+}
+
+/* Display type: weight 400 is the signature. Authority comes from scale and
+   tight tracking, never from weight — bolding this destroys the editorial
+   restraint the whole system rests on. */
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: var(--track-display);
+  line-height: var(--display-leading);
+  font-size: clamp(2.6rem, 7vw, 6.5rem);
+}
+.section-title .mask + .mask { margin-top: -0.4em; } /* 1.3 - 0.4 = the 0.9 rhythm */
+
+/* ============ Preloader ============ */
+.preloader {
+  position: fixed; inset: 0; z-index: 1000;
+  background: var(--color-graphite); color: var(--paper);
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding: var(--gutter);
+}
+.preloader__count {
+  font-family: var(--font-display); font-weight: 400;
+  letter-spacing: var(--track-display);
+  font-size: clamp(4rem, 14vw, 11.7rem); line-height: 0.9;
+}
+.preloader__label { font-size: 0.9375rem; color: rgba(255, 255, 255, 0.62); }
+
+/* ============ Cursor ============ */
+.cursor {
+  position: fixed; top: 0; left: 0; z-index: 999;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--ink);
+  pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+  transform: translate(-50%, -50%);
+  transition: width 0.35s var(--ease), height 0.35s var(--ease), background-color 0.35s var(--ease);
+}
+.cursor.is-hover { width: 64px; height: 64px; background: var(--ink); }
+.cursor__label {
+  color: var(--paper); font-size: 0.8rem;
+  opacity: 0; transition: opacity 0.25s;
+}
+.cursor.is-hover .cursor__label { opacity: 1; }
+@media (hover: none) { .cursor { display: none; } }
+
+/* ============ Header ============ */
+/* No mix-blend-mode: a child cannot opt out of a parent's blend mode, and the
+   nav pill and CTA both carry their own colour. initHeader toggles
+   .is-over-hero instead. */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem var(--gutter);
+  color: var(--ink);
+  transition: transform 0.6s var(--ease), color 0.4s var(--ease);
+}
+.header.is-over-hero { color: var(--color-canvas-white); }
+.header.is-hidden { transform: translateY(-110%); }
+.header__logo {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: 1.0625rem; letter-spacing: var(--track-display);
+}
+/* The floating pill container — carries its own surface, so it keeps graphite
+   items whether it sits over the photo or over white. */
+.header__nav {
+  display: flex; gap: 1.25rem;
+  background: var(--color-ash); color: var(--ink);
+  border-radius: var(--radius-nav);
+  padding: 0.5rem 1.125rem;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: 1rem; letter-spacing: var(--track-display);
+}
+.header__nav a { position: relative; }
+.header__nav a::after {
+  content: ""; position: absolute; left: 0; bottom: -2px; height: 1px; width: 100%;
+  background: var(--color-ember-orange); transform: scaleX(0); transform-origin: right;
+  transition: transform 0.4s var(--ease);
+}
+.header__nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+/* Primary CTA: dark fill, sharp corners. Ember is an accent, never a fill. */
+.header__cta {
+  background: var(--color-graphite); color: var(--color-canvas-white);
+  border: none; border-radius: var(--radius-button);
+  padding: 0.625rem 1.25rem;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: 1rem; letter-spacing: var(--track-display);
+  transition: background 0.35s var(--ease);
+}
+.header__cta:hover { background: var(--color-steel); }
+/* Two bars, not three — the mark reads as a menu at this size and matches the
+   system's flat, unornamented geometry. */
+.header__menu {
+  display: none;
+  width: 44px; height: 44px; padding: 0;
+  background: none; border: 0; cursor: pointer; color: inherit;
+  flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px;
+}
+.header__menu span { display: block; width: 26px; height: 1.5px; background: currentColor; }
+.header__menu span:last-child { width: 18px; }
+
+@media (max-width: 760px) {
+  /* "Let's talk" moves into the panel, so the header is logo + menu. */
+  .header__nav, .header__cta { display: none; }
+  .header__menu { display: flex; }
+}
+
+/* ---- Mobile navigation panel ---------------------------------------------
+   `fixed` is mandatory: a top layer element whose position is static or
+   relative is forced to `absolute` against the initial containing block, which
+   drags the page to the top on open. Same trap as .modal — see that rule. */
+.nav-menu {
+  position: fixed; inset: 0;
+  width: 100%; max-width: none; height: 100%; max-height: none;
+  margin: 0; border: 0; padding: var(--gutter);
+  background: var(--color-graphite); color: var(--paper);
+}
+/* The layout goes on [open], NOT on .nav-menu. A bare `display` here would beat
+   the UA's `dialog:not([open]) { display: none }` and render the closed menu
+   into the page on every viewport — which it did. */
+.nav-menu[open] { display: flex; flex-direction: column; justify-content: center; }
+.nav-menu::backdrop { background: var(--color-graphite); }
+.nav-menu__close {
+  position: absolute; top: 1.1rem; right: var(--gutter);
+  width: 44px; height: 44px;
+  background: none; border: 0; color: inherit; cursor: pointer;
+  font-size: 1.75rem; line-height: 1;
+}
+.nav-menu__links { display: flex; flex-direction: column; gap: 0.5rem; }
+.nav-menu__links a {
+  padding: 0.6rem 0;                    /* generous rows — this is a thumb target */
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(2rem, 9vw, 3rem);
+  letter-spacing: var(--track-display); line-height: 1.25;
+}
+.nav-menu__links a:last-child { color: rgba(255, 255, 255, 0.62); }
+
+/* ============ Page wrapper (curtain over footer) ============ */
+/* No shadow anywhere: depth comes from surface colour contrast. */
+.page { position: relative; z-index: 2; background: var(--bg); }
+
+/* ============ Hero (full-bleed) ============ */
+.hero { position: relative; height: 100svh; overflow: hidden; }
+.hero__bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  /* Subject sits at 62% of the frame. At 50% a portrait-phone crop slices his
+     face off the right edge, so bias the framing toward him. */
+  object-position: 65% center;
+  transform: scale(1.1);
+  will-change: transform;
+}
+.hero__scrim {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(32, 32, 32, 0.16) 0%, transparent 28%, transparent 68%, rgba(32, 32, 32, 0.24) 100%),
+    rgba(32, 32, 32, 0.35);
+  pointer-events: none;
+}
+.hero__text {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 0 var(--gutter);
+  pointer-events: none; /* purely decorative overlay — must not swallow clicks */
+  color: var(--color-canvas-white);
+}
+/* The box must be tall enough to hold the ink (1.27em), but the negative margins
+   cancel the extra so the rendered block is the same 0.85em it always was. */
+.hero__name {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(2.8rem, 8vw, 8rem);
+  line-height: var(--display-leading);
+  margin: -0.225em 0;
+  letter-spacing: var(--track-display);
+}
+.hero__tagline {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.35rem, 3.2vw, 3.1rem);
+  line-height: var(--display-leading);
+  letter-spacing: var(--track-display);
+  margin-top: 0.4em;
+  max-width: 26ch; /* break to two lines instead of running edge to edge */
+}
+.hero__scroll {
+  position: absolute; right: var(--gutter); bottom: var(--gutter);
+  font-size: 0.9375rem; color: rgba(255, 255, 255, 0.78);
+  animation: scrollhint 2.4s ease-in-out infinite;
+}
+@keyframes scrollhint { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+/* ============ Work — intro ============ */
+.work { padding: clamp(6rem, 14vh, 12rem) var(--gutter) clamp(3rem, 7vh, 5rem); }
+/* Centred and full-width, per the reference layout Mohamed supplied. This is a
+   deliberate exception to the reference's single-column content gravity. */
+.work__head { max-width: 72rem; margin-inline: auto; text-align: center; }
+.work__intro { max-width: none; margin-top: 2rem; color: var(--muted-copy); }
+.work__intro + .work__intro { margin-top: 1.1rem; }
+
+/* ============ Project wheel ============
+   One set of markup, two layouts:
+   1. Static (default) — a plain stacked list, readable with no JS at all.
+      This is what mobile, reduced-motion and no-script visitors get.
+   2. Live (.pw.is-live, added by initProjects above 900px) — the section pins
+      and each card folds away like a Rolodex leaf as the next one unfolds. */
+.pw { padding: 0 var(--gutter) clamp(4rem, 10vh, 8rem); }
+.pw__list { list-style: none; display: flex; flex-direction: column; gap: clamp(4rem, 12vh, 9rem); }
+.pw__item { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); }
+.pw__frame { order: -1; } /* card above the copy when stacked */
+
+/* Softly rounded rather than the system's asymmetric radius — requested to match
+   the carousel reference (which uses 32px). Surface colour and a hairline do the
+   lifting; no shadow. */
+.pw__face {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
+  height: clamp(300px, 46vh, 520px);
+  border-radius: 16px;
+  border: 1px solid var(--color-mist);
+  overflow: hidden;
+}
+/* The demo is 16:9 inside a portrait card, so `contain` — `cover` would crop 47%
+   of the recording's width away. Transparent until it paints, so the mark below
+   shows through; initProjects hides the mark once playback starts. */
+.pw__video, .pw__shot {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.pw__mark, .pw__face em { transition: opacity 0.4s var(--ease); }
+.pw__face.is-playing .pw__mark,
+.pw__face.is-playing em { opacity: 0; }
+.pw__mark {
+  font-family: var(--font-display); font-weight: 400;
+  letter-spacing: var(--track-display);
+  font-size: clamp(3.5rem, 8vw, 7rem); line-height: 1; color: var(--ink);
+}
+.pw__face em { font-style: normal; font-size: 0.9375rem; color: var(--muted); }
+.pw__face--a { background: var(--color-ash); }
+.pw__face--b { background: var(--color-ivory); } /* featured — the warm wash */
+.pw__face--c { background: var(--color-canvas-white); }
+.pw__face--d { background: var(--color-fog); }
+
+.pw__count { display: block; font-size: 0.9375rem; color: var(--muted); }
+.pw__count em { font-style: normal; color: var(--ink); }
+.pw__title {
+  margin-top: 0.6rem;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.6rem, 2.9vw, 2.3125rem);
+  letter-spacing: var(--track-display); line-height: 1.19;
+}
+/* Tag: Brass reads at 5.38:1 — Ember would be 2.89:1 and fails as text. */
+.pw__badge {
+  display: inline-block; margin-top: 0.8rem; padding: 0.35rem 0.9rem;
+  border: 1px solid var(--line); border-radius: var(--radius-tag);
+  font-size: 0.9375rem; color: var(--color-brass);
+}
+.pw__tech { margin-top: 0.8rem; font-size: 0.9375rem; color: var(--muted); }
+.pw__desc { margin-top: 1rem; max-width: 32rem; color: var(--muted-copy); }
+.pw__links { margin-top: 1.4rem; display: flex; flex-wrap: wrap; gap: 1.6rem; font-size: 0.9375rem; }
+/* The one place the ember appears: graphite text, orange rule beneath. */
+.pw__links a {
+  border-bottom: 1px solid var(--color-ember-orange);
+  padding-bottom: 3px; transition: opacity 0.3s;
+}
+.pw__links a:hover { opacity: 0.55; }
+.pw__links .is-soon { color: var(--muted); border-color: var(--line); pointer-events: none; }
+.pw__note { color: var(--muted); }
+.pw__dots { display: none; }
+
+/* ---- Live layout: pinned, cards fold ---- */
+.pw.is-live {
+  position: relative;
+  height: 100svh; display: flex; align-items: center;
+  padding: 0 var(--gutter); overflow: hidden;
+}
+.pw.is-live .pw__list {
+  position: relative; display: block; gap: 0;
+  width: 100%; height: min(70svh, 600px); padding-right: 3.5rem;
+}
+.pw.is-live .pw__item {
+  position: absolute; inset: 0;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 44%);
+  gap: clamp(2rem, 5vw, 6rem); align-items: center;
+}
+.pw.is-live .pw__item:not(.is-active) { pointer-events: none; }
+/* The copy hugs the gap rather than the far gutter — otherwise the text caps out
+   at 30rem inside a 610px column and leaves a ~190px hole beside the card. */
+.pw.is-live .pw__copy { max-width: 32rem; justify-self: end; }
+/* The perspective sits on the frame, so its origin is centred on the card
+   itself rather than on the whole two-column row. GSAP owns .pw__face's
+   transform, so the hover lift lives on the frame where it won't be clobbered. */
+.pw.is-live .pw__frame {
+  order: 0; height: 100%; perspective: 1500px;
+  transition: transform 0.5s var(--ease);
+}
+.pw.is-live .pw__item.is-active .pw__frame:hover { transform: translateY(-10px); }
+.pw.is-live .pw__face { height: 100%; will-change: transform; }
+.pw.is-live .pw__desc { max-width: 30rem; }
+
+.pw.is-live .pw__dots {
+  position: absolute; right: var(--gutter); top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 0.85rem; list-style: none;
+}
+.pw.is-live .pw__dots li { width: 3px; height: 3px; border-radius: 50%; background: var(--ink); opacity: 0.25; }
+
+/* ============ Work — closing link ============ */
+.also { padding: 0 var(--gutter) clamp(6rem, 14vh, 12rem); }
+
+.work__more {
+  /* .pw.is-live drops its bottom padding when pinned, so this margin is the only
+     thing separating the link from the wheel on desktop. */
+  display: inline-block; margin-top: clamp(3rem, 7vh, 5rem);
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.2rem, 2.4vw, 2rem);
+  letter-spacing: var(--track-display);
+  border-bottom: 1px solid var(--color-ember-orange); padding-bottom: 6px;
+  transition: opacity 0.3s;
+}
+.work__more:hover { opacity: 0.55; }
+
+/* ============ Dark band: the About bio ============ */
+/* Graphite, matching the footer — the second deliberate dark surface in an
+   otherwise all-light system. Sections are separated by surface colour, never
+   by dividers or shadows. */
+.mission {
+  background: var(--color-graphite); color: var(--paper);
+  padding: clamp(8rem, 20vh, 14rem) var(--gutter);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: clamp(2.5rem, 6vh, 4rem);
+}
+.mission__text {
+  /* In a column flex container `align-items: center` centres horizontally, which
+     would shrink-wrap the paragraph. width:100% keeps it the block it was. */
+  width: 100%; max-width: 62rem;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.6rem, 3.6vw, 3.25rem);
+  line-height: 1.25; letter-spacing: var(--track-display);
+}
+/* Required, not decorative: the reset zeroes every margin, so without this the
+   long bio's paragraphs run together into the single block it exists to avoid. */
+.mission__text p + p { margin-top: 0.9em; }
+/* The long version is a story, not a statement — 240 words at the display size
+   is ~43 characters a line. Stepping to 28px puts the measure near 70 and lets
+   the leading open up. Keyed off the class the toggle already owns: .bio-toggle
+   is a preceding sibling, so the state has one home. */
+.mission.is-long .mission__text {
+  font-size: clamp(1.15rem, 2.2vw, 1.75rem);
+  line-height: 1.45;
+}
+
+/* The greeting doubles as the toggle's label — "short version or whole story"
+   is what tells you what Short and Long mean. Tinted white, not Slate: Slate
+   measures only 4.24:1 on Graphite, this reads at 7:1. */
+.mission__lead { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
+.mission__greeting {
+  max-width: 34rem; text-align: center;
+  font-size: 1.0625rem; color: rgba(255, 255, 255, 0.62);
+}
+
+/* ---- Short / long bio toggle ---------------------------------------------
+   Ported from a React/Tailwind reference to plain CSS. On the graphite band a
+   literally-black selected segment would vanish, so the pair is inverted: the
+   selected side is the white fill, the unselected side is the open one.
+   Reuses --radius-nav, so the site's 0 / 200px / 20px radius rhythm is intact. */
+.bio-toggle[hidden] { display: none; }
+.bio-toggle {
+  position: relative; display: inline-flex; padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius-nav);
+}
+/* One thumb that slides, rather than two backgrounds that cross-fade — the
+   movement is what carries the state change. */
+.bio-toggle__thumb {
+  position: absolute; top: 4px; bottom: 4px; left: 4px;
+  width: calc(50% - 4px);
+  background: var(--color-canvas-white);
+  border-radius: var(--radius-nav);
+  transition: transform 0.45s var(--ease);
+}
+.mission.is-long .bio-toggle__thumb { transform: translateX(100%); }
+.bio-toggle__opt {
+  position: relative; z-index: 1;
+  flex: 1 1 0; min-width: 7.5rem;          /* equal halves, so the thumb's 50% is exact */
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0.6rem 1.2rem;
+  background: none; border: 0; cursor: pointer;
+  font: inherit; font-size: 0.9375rem;
+  color: var(--paper);
+  border-radius: var(--radius-nav);
+  transition: color 0.45s var(--ease), background 0.3s var(--ease);
+}
+.bio-toggle__opt[aria-pressed='true'] { color: var(--color-graphite); }
+.bio-toggle__opt[aria-pressed='false']:hover { background: rgba(255, 255, 255, 0.08); }
+/* The reference's gesture: the label slides aside and an arrow arrives. The
+   arrow's slot is always reserved and only its opacity moves, so hovering never
+   reflows the pill — animating width would judder. */
+.bio-toggle__pair {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  transform: translateX(0.6em);            /* half the arrow slot, so the label reads centred */
+  transition: transform 0.3s var(--ease);
+}
+.bio-toggle__arrow { opacity: 0; transition: opacity 0.3s var(--ease); }
+.bio-toggle__opt[aria-pressed='false']:hover .bio-toggle__pair,
+.bio-toggle__opt[aria-pressed='false']:focus-visible .bio-toggle__pair { transform: translateX(0); }
+.bio-toggle__opt[aria-pressed='false']:hover .bio-toggle__arrow,
+.bio-toggle__opt[aria-pressed='false']:focus-visible .bio-toggle__arrow { opacity: 1; }
+.bio-toggle__opt:focus-visible { outline: 2px solid var(--color-canvas-white); outline-offset: 3px; }
+/* Near-invisible until the scroll reveal lights each word up. */
+.mission__text .w { opacity: 0.12; display: inline-block; }
+
+/* ============ Experience rows ============ */
+.experience { padding: clamp(6rem, 14vh, 12rem) var(--gutter); }
+/* Centred to match .work__head */
+.experience__head {
+  max-width: 72rem; margin-inline: auto; text-align: center;
+  margin-bottom: clamp(3rem, 7vh, 5rem);
+}
+
+/* Group labels sit at the weight of .row__index and align to its left edge, so
+   they divide the run of rows without reading as a second section heading. */
+.rows-group + .rows-group { margin-top: clamp(2.75rem, 6vh, 4rem); }
+.rows-group__label {
+  font-family: var(--font); font-weight: 400;
+  font-size: 0.9375rem; color: var(--muted);
+  padding-left: 0.5rem; margin-bottom: 0.85rem;
+}
+
+.rows { list-style: none; border-top: 1px solid var(--line); }
+.row { border-bottom: 1px solid var(--line); }
+.row__heading { font: inherit; font-weight: 400; }
+/* The whole row is the control, so the grid, padding and hover live on the
+   button — a real <button> rather than a click handler on the <li>, so it is
+   focusable and works from the keyboard. */
+.row__trigger {
+  display: grid; width: 100%;
+  /* The date column carries "Oct 2024 — Sep 2027" now, which needs ~150px; the
+     org column gives up the difference so the total is unchanged. */
+  grid-template-columns: 3rem minmax(0, 1fr) 20rem 10.5rem 2rem;
+  gap: 1.5rem; align-items: baseline;
+  padding: 1.8rem 0.5rem;
+  background: none; border: 0; color: inherit; font: inherit;
+  text-align: left; cursor: pointer;
+  transition: background 0.4s var(--ease), color 0.4s var(--ease), padding-left 0.4s var(--ease);
+}
+.row__trigger:hover, .row__trigger:focus-visible { background: var(--ink); color: var(--paper); padding-left: 1.2rem; }
+.row__trigger:hover .row__index, .row__trigger:hover .row__date,
+.row__trigger:focus-visible .row__index, .row__trigger:focus-visible .row__date { color: rgba(255,255,255,0.72); }
+.row__index { font-size: 0.9375rem; color: var(--muted); }
+/* Title and org share one type treatment — the org is a peer, not a caption. */
+.row__title, .row__org {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.15rem, 1.8vw, 1.4375rem); letter-spacing: var(--track-display);
+}
+.row__title em { font-style: normal; font-family: var(--font); }
+/* nowrap as a guarantee: a wrapped date makes that one row taller than the
+   rest and the whole list loses its rhythm. */
+.row__date { font-size: 0.9375rem; color: var(--muted); white-space: nowrap; }
+.row__arrow { justify-self: end; transition: transform 0.4s var(--ease); }
+.row__trigger:hover .row__arrow, .row__trigger:focus-visible .row__arrow { transform: translateX(6px); }
+@media (max-width: 900px) {
+  .row__trigger { grid-template-columns: 2.2rem 1fr; gap: 0.4rem 1.5rem; }
+  .row__org, .row__date { grid-column: 2; }
+  .row__arrow { display: none; }
+}
+
+/* ============ Experience detail modal ============ */
+/* Native <dialog>: focus trap, Escape-to-close, focus restoration and the
+   backdrop all come free and correct. No shadow — the backdrop separates it. */
+.modal {
+  /* Must stay `fixed`. A top layer element whose position is static or relative
+     is forced to `absolute`, whose containing block is the *initial* one — so
+     the card lands near the top of the document rather than the viewport, and
+     the focus showModal() gives the close button scrolls the page up to meet
+     it. `inset` and `height` are spelled out so this never leans on UA styles. */
+  position: fixed; inset: 0;
+  margin: auto; border: 0; padding: clamp(2rem, 5vw, 3.25rem);
+  width: min(46rem, calc(100vw - 2rem));
+  height: fit-content; max-height: 85svh; overflow-y: auto;
+  background: var(--color-canvas-white); color: var(--ink);
+  border-radius: var(--radius-card);
+}
+.modal::backdrop { background: rgba(32, 32, 32, 0.62); }
+.modal__close {
+  position: absolute; top: 1.25rem; right: 1.25rem;
+  width: 2.25rem; height: 2.25rem; border: 0; border-radius: 100%;
+  background: var(--color-graphite); color: var(--color-canvas-white);
+  font-size: 1.25rem; line-height: 1; cursor: pointer;
+  display: grid; place-items: center;
+  transition: background 0.3s var(--ease);
+}
+.modal__close:hover { background: var(--color-steel); }
+.modal__meta { font-size: 0.9375rem; color: var(--muted); padding-right: 3rem; }
+.modal__title {
+  margin-top: 0.5rem;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.6rem, 3vw, 2.3125rem);
+  letter-spacing: var(--track-display); line-height: 1.19;
+}
+.modal__title em { font-style: normal; font-family: var(--font); }
+.modal__body { margin-top: 1.5rem; color: var(--muted-copy); }
+.modal__body > * + * { margin-top: 1rem; }
+/* The reset zeroes list padding and the UA marker goes with it, so both have to
+   be put back explicitly or the bullets render flush and invisible. */
+.modal__body ul { padding-left: 1.15rem; list-style: disc; }
+.modal__body li + li { margin-top: 0.5rem; }
+.modal__body:empty::before {
+  content: "Write-up coming soon.";
+  color: var(--muted); font-style: italic;
+}
+
+/* Entrance: @starting-style degrades to appearing instantly where unsupported. */
+@media (prefers-reduced-motion: no-preference) {
+  .modal {
+    opacity: 1; translate: 0 0;
+    transition: opacity 0.3s var(--ease), translate 0.3s var(--ease), overlay 0.3s allow-discrete, display 0.3s allow-discrete;
+  }
+  .modal::backdrop { opacity: 1; transition: opacity 0.3s var(--ease), overlay 0.3s allow-discrete, display 0.3s allow-discrete; }
+  .modal:not([open]) { opacity: 0; translate: 0 1rem; }
+  .modal:not([open])::backdrop { opacity: 0; }
+  @starting-style {
+    .modal[open] { opacity: 0; translate: 0 1rem; }
+    .modal[open]::backdrop { opacity: 0; }
+  }
+}
+
+.skills {
+  /* Three across so the six categories form two even rows. */
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+  margin-top: clamp(3rem, 7vh, 5rem);
+}
+/* h3, not h4: rows are h4 now, so an h4 here would nest the skill categories
+   under the Education group in the outline. */
+.skills__col h3 { font-size: 0.9375rem; color: var(--muted); margin-bottom: 0.6rem; font-weight: 500; }
+.skills__col p { font-weight: 400; color: var(--muted-copy); }
+@media (max-width: 900px) { .skills { grid-template-columns: 1fr 1fr; } }
+
+/* Primary CTA: dark fill, sharp corners. */
+/* Two equal choices, not a primary and a fallback — so both keep the same
+   graphite fill and they sit as a pair rather than a hierarchy. */
+.cv { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: clamp(3rem, 6vh, 4rem); }
+.cv-button {
+  display: inline-block;
+  background: var(--color-graphite); color: var(--color-canvas-white);
+  border: none; border-radius: var(--radius-button);
+  padding: 0.75rem 1.6rem;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: 1rem; letter-spacing: var(--track-display);
+  transition: background 0.35s var(--ease);
+}
+.cv-button:hover { background: var(--color-steel); }
+.cv-button span { color: inherit; opacity: 0.6; }
+
+/* ============ Gallery (horizontal) — Fog band ============ */
+.gallery { position: relative; background: var(--color-fog); }
+.gallery__pin { overflow: hidden; padding: clamp(5rem, 10vh, 8rem) 0; }
+/* Below the pin's breakpoint the strip becomes a plain horizontal scroller —
+   swiping sideways is what a thumb reaches for, and vertical scroll stays
+   vertical. Mirrors the 901px gate in gallery.ts. */
+@media (max-width: 900px) {
+  .gallery__pin {
+    overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .gallery__pin::-webkit-scrollbar { display: none; }
+  .gallery__item { scroll-snap-align: center; }
+}
+.gallery__head { padding: 0 var(--gutter); margin-bottom: 3rem; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; align-items: flex-end; }
+.gallery__sub { max-width: 30rem; color: var(--muted-copy); }
+.gallery__track {
+  display: flex; gap: clamp(1.5rem, 3vw, 3rem);
+  padding: 0 var(--gutter);
+  width: max-content;
+  will-change: transform;
+}
+.gallery__item { width: clamp(320px, 38vw, 560px); flex-shrink: 0; }
+.gallery__item--tall { margin-top: 3.5rem; }
+.gallery__item img { height: clamp(260px, 42vh, 460px); border-radius: var(--radius-card); }
+/* For frames where the subject sits low: these are portrait shots in a landscape
+   box, and a centred cover crop drops him out of the picture entirely. */
+.gallery__item--bottom img { object-position: center bottom; }
+.gallery__item figcaption { margin-top: 0.7rem; font-size: 0.9375rem; color: var(--muted); }
+
+/* ============ Marquee ============ */
+.marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1.4rem 0; }
+.marquee__inner { display: flex; width: max-content; animation: marquee 28s linear infinite; }
+.marquee__inner span {
+  white-space: nowrap;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.4rem, 3vw, 2.6rem); letter-spacing: var(--track-display); padding-right: 0.5rem;
+}
+.marquee__inner--slow { animation-duration: 40s; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ============ Footer (revealed behind page) ============ */
+/* The one dark surface in an otherwise all-light system: this is a curtain
+   reveal, and the moment needs the tonal jump to land. Recorded in design.md. */
+.footer {
+  background: var(--color-graphite); color: var(--paper);
+  scroll-margin-top: 6rem; /* keeps the heading clear of the fixed header on anchor jumps */
+}
+/* The curtain only works while the footer fits the viewport: pinned to the
+   bottom, anything taller than the screen has its top permanently cut off — and
+   this footer carries a whole contact form. Below the threshold it scrolls
+   normally, so the heading is always reachable. */
+@media (min-height: 1040px) {
+  .footer { position: sticky; bottom: 0; z-index: 1; }
+}
+.footer__inner { padding: clamp(5rem, 10vh, 8rem) var(--gutter) 2rem; }
+.footer__title {
+  font-family: var(--font-display); font-weight: 400;
+  letter-spacing: var(--track-display); line-height: 0.91;
+  font-size: clamp(3.5rem, 12vw, 11.7rem);
+}
+.footer__invite { margin-top: 2rem; max-width: 30rem; color: rgba(255,255,255,0.74); }
+
+.footer__grid {
+  display: grid; grid-template-columns: 1.2fr 1fr;
+  gap: 4rem; margin-top: clamp(3rem, 7vh, 5rem);
+}
+@media (max-width: 900px) { .footer__grid { grid-template-columns: 1fr; } }
+
+.contact-form { display: flex; flex-direction: column; gap: 1.4rem; }
+.contact-form label { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.9375rem; color: rgba(255,255,255,0.62); }
+.contact-form input, .contact-form textarea {
+  background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.3);
+  color: var(--paper); font-family: var(--font); font-size: 1.125rem; padding: 0.5rem 0;
+  outline: none; resize: vertical;
+  transition: border-color 0.3s;
+}
+.contact-form input:focus, .contact-form textarea:focus { border-color: var(--color-ember-orange); }
+.contact-form button {
+  align-self: flex-start; margin-top: 0.6rem;
+  background: var(--color-canvas-white); color: var(--ink);
+  border: none; border-radius: var(--radius-button); padding: 0.75rem 1.6rem;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: 1rem; letter-spacing: var(--track-display);
+  cursor: pointer; transition: background 0.35s var(--ease);
+}
+.contact-form button:hover { background: var(--color-ash); }
+.contact-form__status { color: var(--paper); }
+/* Ember is barred as text on white (2.89:1) but measures 5.64:1 on Graphite,
+   so it clears AA here — and it is already the focus colour on these inputs. */
+.contact-form__status[data-state='error'] { color: var(--color-ember-orange); }
+.contact-form button[disabled] { opacity: 0.6; cursor: default; }
+
+.footer__channels { list-style: none; display: flex; flex-direction: column; gap: 1.6rem; }
+.footer__channels li { display: flex; flex-direction: column; gap: 0.3rem; }
+.footer__channels span { font-size: 0.9375rem; color: rgba(255,255,255,0.62); }
+.footer__channels a {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: 1.25rem; letter-spacing: var(--track-display);
+  border-bottom: 1px solid transparent; transition: border-color 0.3s; width: fit-content;
+}
+.footer__channels a:hover { border-color: var(--color-ember-orange); }
+
+.footer__marquee { margin-top: clamp(2.5rem, 5vh, 4rem); overflow: hidden; }
+.footer__marquee .marquee__inner span { font-size: clamp(2.5rem, 7vw, 7rem); font-weight: 400; letter-spacing: var(--track-display); line-height: 1; }
+.footer__bottom {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  margin-top: 3rem; padding-top: 1.4rem;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  font-size: 0.9375rem; color: rgba(255,255,255,0.62);
+}
+.footer__bottom a:hover { color: var(--paper); }
+
+/* ============ Touch: tap targets ============ */
+/* Gated on `pointer: coarse`, so a mouse-driven browser at any width is
+   untouched. Several of these links carry an ember/underline rule that sits a
+   fixed distance under the text — padding would push it away and visibly change
+   the design, so the hit area is grown with a transparent pseudo-element
+   instead. Nothing drawn moves; only the touch region grows. */
+@media (pointer: coarse) {
+  .pw__links a, .footer__channels a, .footer__bottom a, .header__logo,
+  .work__more, .also a { position: relative; }
+  .pw__links a::before, .footer__channels a::before, .footer__bottom a::before,
+  .header__logo::before, .work__more::before, .also a::before {
+    content: ""; position: absolute; inset: -11px -8px;
+  }
+
+  /* No underline to protect on these — just grow the control itself. */
+  .contact-form input, .contact-form textarea { padding: 0.85rem 0; }
+  .bio-toggle__opt { padding: 0.75rem 1.2rem; }
+  .modal__close { width: 2.75rem; height: 2.75rem; }
+}
+
+/* ============ Reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__inner { animation: none; }
+  .hero__scroll { animation: none; }
+  .mission__text .w { opacity: 1; }
+  .bio-toggle__thumb, .bio-toggle__opt, .bio-toggle__pair, .bio-toggle__arrow { transition: none; }
+}

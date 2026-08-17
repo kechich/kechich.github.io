@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mohamed.kechiche.workers.dev/sitemap.xml

@@ -5,6 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mohamed Kechiche — Software Engineer & CS Student at TU Darmstadt</title>
   <meta name="description" content="Mohamed Kechiche is a software engineer and computer science student at TU Darmstadt, building AI-powered products at GFT Technologies and beyond. See his projects and get in touch." />
+  <link rel="canonical" href="https://mohamed.kechiche.workers.dev/" />
+
+  <!-- Social preview. LinkedIn, Slack, WhatsApp and iMessage all build their
+       cards from these; without them LinkedIn's "add media" silently reads
+       nothing. Every URL here MUST be absolute — relative paths are not
+       resolved by the crawlers. og-image.jpg stays JPEG deliberately: the rest
+       of the site is WebP, which LinkedIn does not reliably decode.
+       If the site moves to kechiche.dev, the four absolute URLs below change
+       and the page has to be re-scraped at linkedin.com/post-inspector. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Mohamed Kechiche" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:url" content="https://mohamed.kechiche.workers.dev/" />
+  <meta property="og:title" content="Mohamed Kechiche — Software Engineer &amp; CS Student at TU Darmstadt" />
+  <meta property="og:description" content="Software engineer, computer science student and teaching assistant. AI-driven software at GFT Technologies, plus projects built with partners and alone." />
+  <meta property="og:image" content="https://mohamed.kechiche.workers.dev/og-image.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Mohamed Kechiche on a rooftop at dusk, the lit Frankfurt skyline behind him." />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mohamed Kechiche — Software Engineer &amp; CS Student at TU Darmstadt" />
+  <meta name="twitter:description" content="Software engineer, computer science student and teaching assistant. AI-driven software at GFT Technologies, plus projects built with partners and alone." />
+  <meta name="twitter:image" content="https://mohamed.kechiche.workers.dev/og-image.jpg" />
+
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#202020" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
@@ -51,7 +82,7 @@
 
     <!-- ============ HERO (full-bleed) ============ -->
     <section class="hero">
-      <img class="hero__bg" src="/images/hero-frankfurt.jpeg" alt="Mohamed Kechiche at dusk on a rooftop, the lit Frankfurt skyline rising behind the rooftops below" data-parallax />
+      <img class="hero__bg" src="/images/hero-frankfurt.webp" alt="Mohamed Kechiche at dusk on a rooftop, the lit Frankfurt skyline rising behind the rooftops below" data-parallax />
       <div class="hero__scrim" aria-hidden="true"></div>
       <div class="hero__text">
         <h1 class="hero__name"><span class="mask"><span class="reveal">Mohamed Kechiche<sup>®</sup></span></span></h1>
@@ -93,10 +124,13 @@
             <a class="pw__face pw__face--a" href="https://law-buddy-impact-guide.lovable.app/" target="_blank" rel="noopener" aria-label="Open the LawBuddy live demo" data-cursor="Open">
               <span class="pw__mark">LB</span>
               <em>Live demo</em>
-              <!-- preload="none": 11 MB that costs nothing until the card is reached.
+              <!-- The poster shows the real product instantly; preload="none" means
+                   the clip itself costs nothing until the card is reached. That also
+                   covers mobile, where initProjects never runs and the video never
+                   plays — the poster is all a phone ever shows.
                    No controls — it sits inside a link, and nesting interactive
                    controls in an anchor breaks both clicking and screen readers. -->
-              <video class="pw__video" src="/media/lawbuddy-demo.mp4"
+              <video class="pw__video" src="/media/lawbuddy-demo.mp4" poster="/images/lawbuddy-demo-poster.webp"
                      muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
             </a>
           </div>
@@ -118,7 +152,7 @@
             <a class="pw__face pw__face--b" href="https://lucid-insights-analytics.lovable.app/" target="_blank" rel="noopener" aria-label="Open the Lucid Analytics live demo" data-cursor="Open">
               <span class="pw__mark">LA</span>
               <em>Live demo</em>
-              <video class="pw__video" src="/media/lucid-demo.mp4"
+              <video class="pw__video" src="/media/lucid-demo.mp4" poster="/images/lucid-demo-poster.webp"
                      muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
             </a>
           </div>
@@ -137,7 +171,7 @@
           </div>
           <div class="pw__frame">
             <a class="pw__face pw__face--c" href="https://github.com/kechich/Ariva" target="_blank" rel="noopener" aria-label="Ariva on GitHub" data-cursor="View">
-              <img class="pw__shot" src="/images/ariva.jpeg" loading="lazy" width="1281" height="889"
+              <img class="pw__shot" src="/images/ariva.webp" loading="lazy" width="1200" height="833"
                    alt="The Ariva interface: a cross-border legal-assistance case form auto-filled from the scanned original document shown alongside it" />
             </a>
           </div>
@@ -156,7 +190,7 @@
           </div>
           <div class="pw__frame">
             <a class="pw__face pw__face--d" href="https://github.com/kechich/cross-modal-brain-mri-retrieval" target="_blank" rel="noopener" aria-label="Cross-modal brain-MRI retrieval on GitHub" data-cursor="View">
-              <img class="pw__shot" src="/images/mri-retrieval.jpeg" loading="lazy" width="1052" height="659"
+              <img class="pw__shot" src="/images/mri-retrieval.webp" loading="lazy" width="1052" height="659"
                    alt="Research figure: a table of the three retrieval datasets and their macro-MRR scores, above paired T1 post-contrast query and T2 target brain scans" />
             </a>
           </div>
@@ -361,32 +395,32 @@
         </div>
         <div class="gallery__track" id="gallery-track">
           <figure class="gallery__item">
-            <img src="/images/gallery-2.jpeg" loading="lazy" width="1600" height="1200"
+            <img src="/images/gallery-2.webp" loading="lazy" width="1200" height="900"
                  alt="Mohamed sitting back in a red armchair with his laptop, mid-conversation with two colleagues in a sunlit office" />
             <figcaption>Talking shop</figcaption>
           </figure>
           <figure class="gallery__item gallery__item--tall">
-            <img src="/images/gallery-1.jpeg" loading="lazy" width="2048" height="1365"
+            <img src="/images/gallery-1.webp" loading="lazy" width="1200" height="800"
                  alt="Mohamed presenting to a full venue" />
             <figcaption>Presenting to a full house</figcaption>
           </figure>
           <figure class="gallery__item">
-            <img src="/images/gallery-3.jpeg" loading="lazy" width="1600" height="1200"
+            <img src="/images/gallery-3.webp" loading="lazy" width="1200" height="900"
                  alt="Mohamed at his desk in front of a large monitor of code, low sun across an open-plan office" />
             <figcaption>Golden hour, deep work</figcaption>
           </figure>
           <figure class="gallery__item gallery__item--tall">
-            <img src="/images/gallery-4.jpeg" loading="lazy" width="1639" height="1024"
+            <img src="/images/gallery-4.webp" loading="lazy" width="1200" height="750"
                  alt="Mohamed in a ski helmet and mirrored blue goggles at an alpine resort, snow-covered peaks behind him" />
             <figcaption>Bluebird day on the glacier</figcaption>
           </figure>
           <figure class="gallery__item">
-            <img src="/images/gallery-5.jpeg" loading="lazy" width="2048" height="2048"
+            <img src="/images/gallery-5.webp" loading="lazy" width="1200" height="1200"
                  alt="Sitting on a Mediterranean beach under a draped cloth, looking out over a turquoise bay with moored boats, a hillside town and rows of striped umbrellas" />
             <figcaption>Chasing coastlines</figcaption>
           </figure>
           <figure class="gallery__item gallery__item--tall gallery__item--bottom">
-            <img src="/images/gallery-6.jpeg" loading="lazy" width="1524" height="2048"
+            <img src="/images/gallery-6.webp" loading="lazy" width="893" height="1200"
                  alt="Mohamed standing chest-deep in a clear alpine lake, flexing both arms, with a pine-covered mountainside and peak rising behind" />
             <figcaption>Alpine lake, obligatory flex</figcaption>
           </figure>
